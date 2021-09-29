@@ -28,7 +28,6 @@ int main(int argc, char** argv)
 		     printf("CHILD PROCESS: Hi! I'm child.\n");
 		     printf("CHILD PROCESS: My pid is: %d\n", getpid());     
 		     printf("CHILD PROCESS: My parent's pid is: %d\n", getppid());
-		     //sleep(6);
 		     exit(1);
 
 		default:

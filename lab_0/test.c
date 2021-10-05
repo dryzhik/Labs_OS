@@ -21,7 +21,7 @@ void handler_l(DIR* dir, struct dirent* ent, char* path,char buf_path[64], int l
 			memset(path,0,sizeof(int)*len);//очищаем path(sizeof(int) потому что в расширениях файлов могут быть цифры, например, у меня  файл massif.out.6502)
 			memcpy(path, buf_path, len + 1);// копируем директорию
 			memcpy(path + len + 1, ent -> d_name, strlen(ent -> d_name));// копируем название файла в буфер
-			stat(path, &stats);// функция, возвращающая информацию о файле(buf_name) и записывающая ее в структуру stat
+			stat(path, &stats);// функция, возвращающая информацию о файле и записывающая ее в структуру stat
 			//тип файла
 			switch(stats.st_mode & S_IFMT) // st_mode - режим доступа S_IFMT - битовая маска для полей типа файла
 			{
@@ -117,7 +117,7 @@ int main(int argc, char** argv)
 	}
 	
 	
-	char* path = calloc(256, sizeof(char));// выделяем память под буфер, в котором будем хранить текущую директорию
+	char* path = calloc(256, sizeof(char));// выделяем память под буфер, в котором будем хранить путь
 	int len = 0;//длина строки названия директории
 	char buf_path[64];//буфер для хранения директории
 	switch(argc)
@@ -144,9 +144,9 @@ int main(int argc, char** argv)
 		{
 		     if(optind == 2) // переменная, указывающая на первый аргумент командной строки, не являющийся операцией
 		     {
-			len = strlen(argv[2]);//вычисляем длину директории
+			len = strlen(argv[2]);	 //вычисляем длину директории
 			strcat(buf_path,argv[2]);// запоминем директорию
-			strcat(buf_path,"/");
+			strcat(buf_path,"/");    //для корректного отображения пути до файла
 			dir = opendir(argv[2]);
 		     }
 		     else if(optind == 1)

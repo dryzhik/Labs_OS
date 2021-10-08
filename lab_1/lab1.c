@@ -28,15 +28,17 @@ int main(int argc, char** argv)
 		     printf("CHILD PROCESS: Hi! I'm child.\n");
 		     printf("CHILD PROCESS: My pid is: %d\n", getpid());     
 		     printf("CHILD PROCESS: My parent's pid is: %d\n", getppid());
-		     sleep(10);
+		     //sleep(10);
 		     exit(1);
 
 		default:
 		    
 		     printf("PARENT PROCESS: Hi! I'm parent.\n");
 		     printf("PARENT PROCESS: My  pid is: %d\n", getpid());
+		     printf("PARENT PROCESS: My parent's pid is: %d\n", getppid());
 		     printf("PARENT'S CHILD PROCESS: My child's pid is: %d\n", pid);
 		     wait(&status);
+		     printf("CHILD PROCESS return status: %d\n", WEXITSTATUS(status));
 	}
 	
 	return 0;

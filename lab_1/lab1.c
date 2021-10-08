@@ -34,10 +34,12 @@ int main(int argc, char** argv)
 		    
 		     printf("PARENT PROCESS: Hi! I'm parent.\n");
 		     printf("PARENT PROCESS: My  pid is: %d\n", getpid());
+		     printf("PARENT PROCESS: My parent's pid is: %d\n", getppid());
 		     printf("PARENT'S CHILD PROCESS: My child's pid is: %d\n", pid);
 		     wait(&status);//возвращает pid завершенного дочернего процесса или –1 в случае ошибки
 				   //если никакого дочернего процесса не было прервано, то вызов блокируется, пока потомок не завершится
 				   //если дочерний процесс уже был завершен, то результат возвращается немедленно
+		     printf("CHILD PROCESS return status: %d\n", WEXITSTATUS(status));
 	}
 	
 	return 0;

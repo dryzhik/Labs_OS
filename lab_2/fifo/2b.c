@@ -32,7 +32,7 @@ int main(int argc, char** argv)
 
 		case 0:
 		{
-			sleep(5);
+			sleep(1);
 			printf("%s\n","CHILD: OH! NOOOO!");
 			
 			int reader = open(FIFO_FILE, O_RDONLY);
@@ -43,6 +43,8 @@ int main(int argc, char** argv)
 				return -1;
 			}
 			
+			sleep(5);			
+
 			char buf[256];
 			time_t cur_tm = time(NULL);
 			

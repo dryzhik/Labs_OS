@@ -9,14 +9,14 @@
 #include <sys/wait.h>
 #include <sys/shm.h>
 #include <sys/ipc.h>
-#include <signal.h>
 
 #define MEM_FILE "mem_file"
 
 int main(int argc, char** argv)
 {
-	key_t key = ftok(MEM_FILE, 1);
-	int shid = shmget(key, 32, IPC_CREAT|0666);
+	key_t key = ftok(MEM_FILE, 1);             //создание ключа для следующей функции
+	int shid = shmget(key, 32, IPC_CREAT|0666);//присваивание идентификатора разделяемой памяти связанному с ключом 
+						   //новый кусок разделяемой памяти имеет указанный размер и права доступа
 
 	if(shid == -1)
 	{
@@ -24,11 +24,20 @@ int main(int argc, char** argv)
 		return -1;
 	}
 
-	void* shptr = shmat(shid, NULL, 0);
+	void* shptr = shmat(shid, NULL, 0); //подстыковывает сегмент разделяемой памяти shid к адресному пространству вызывающего процесса
 
 	if(shptr == (void*)-1)
 	{
 		printf("%s\n","ATTACH ERROR");
+		return -1;
+	}
+	
+	struct shmid_ds tmp;
+	shmctl(shid, IPC_STAT, &tmp);	//IPC_STAT копирует информацию из структуры, связанной с shid в структуру tmp
+	//printf("%d\n", tmp.shm_nattch);
+	if(tmp.shm_nattch > 1)
+	{
+		printf("%s\n","Sender already exist");
 		return -1;
 	}
 
@@ -43,7 +52,7 @@ int main(int argc, char** argv)
 		free(line);
 	}	
 	
-	shmdt(shptr);
-	shmctl(shid, IPC_RMID, NULL);
+	shmdt(shptr);// отстыковывает сегмент разделяемой памяти, находящийся по адресу shptr
+	shmctl(shid, IPC_RMID, NULL);//IPC_RMID помечает сегмент памяти удаленным
 	return 0;
 }

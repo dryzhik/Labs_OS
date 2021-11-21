@@ -9,7 +9,6 @@
 #include <sys/wait.h>
 #include <sys/shm.h>
 #include <sys/ipc.h>
-#include <signal.h>
 
 #define MEM_FILE "mem_file"
 

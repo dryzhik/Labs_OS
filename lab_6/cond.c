@@ -31,7 +31,7 @@ void* reading()
 		//pthread_cond_wait(&condition, &mutex);
 		printf("My tid: %u. Now count is: %d\n", pthread_self(), count);
 		pthread_mutex_unlock(&mutex);
-		//pthread_cond_signal(&condition);
+		pthread_cond_signal(&condition);
 		sleep(1);
 	}
 }

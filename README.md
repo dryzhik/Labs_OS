@@ -7,4 +7,4 @@ lab_2 - passed
 lab_3 - need to check  
 lab_4 - need to check  
 lab_5 - need to check  
-lab_6 - in process
+lab_6 - need to check

@@ -8,18 +8,18 @@
 #include <string.h>
 
 pthread_mutex_t mutex;
-pthread_cond_t condition;
+pthread_cond_t condW;
 int count = 0;
 
 void* writing()
 {
 	while(1)
 	{
+		sleep(1);
 		pthread_mutex_lock(&mutex);
 		count++;
-		pthread_cond_broadcast(&condition);
+		pthread_cond_broadcast(&condW);//Сигнализирование нескольким потокам и активизация всех этих потоков
 		pthread_mutex_unlock(&mutex);
-		sleep(1);
 	}
 }
 
@@ -28,11 +28,9 @@ void* reading()
 	while(1)
 	{
 		pthread_mutex_lock(&mutex);
-		//pthread_cond_wait(&condition, &mutex);
+		pthread_cond_wait(&condW, &mutex);
 		printf("My tid: %u. Now count is: %d\n", pthread_self(), count);
 		pthread_mutex_unlock(&mutex);
-		pthread_cond_signal(&condition);
-		sleep(1);
 	}
 }
 
@@ -43,7 +41,7 @@ int main(int argc, char** argv)
 	pthread_t writer;		
 
 	pthread_mutex_init(&mutex, NULL);
-	pthread_cond_init(&condition, NULL);
+	pthread_cond_init(&condW, NULL);
 	
 	pthread_create(&writer, NULL, writing, NULL);
 	
@@ -58,7 +56,8 @@ int main(int argc, char** argv)
         }
 
 	pthread_join(writer, NULL);
-
+	
+	pthread_cond_destroy(&condW);
 	pthread_mutex_destroy(&mutex);
 	
 	return 0;

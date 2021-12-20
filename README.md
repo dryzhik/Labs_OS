@@ -8,4 +8,4 @@ lab_3 - passed
 lab_4 - passed  
 lab_5 - passed  
 lab_6 - passed  
-lab_7 - need to check
+lab_7 - passed
